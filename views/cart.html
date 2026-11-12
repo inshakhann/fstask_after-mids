@@ -1,0 +1,25 @@
+<main class="container py-5">
+  <h2 class="mb-4">Your cart</h2>
+  <div ng-if="!lines().length"><p>Your cart is empty.</p><a class="btn btn-accent" href="#!/">Browse products</a></div>
+  <div ng-if="lines().length">
+    <div class="table-responsive">
+      <table class="table align-middle bg-white">
+        <thead><tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th><th></th></tr></thead>
+        <tbody>
+          <tr ng-repeat="l in lines()">
+            <td><div class="d-flex align-items-center gap-3"><img class="cart-img" ng-src="{{l.product.img}}" alt=""><span>{{l.product.name}}</span></div></td>
+            <td>{{l.product.price | currency}}</td>
+            <td><div class="input-group input-group-sm" style="width:120px">
+              <button class="btn btn-outline-secondary" ng-click="change(l.product.id,-1)" aria-label="Decrease">−</button>
+              <input class="form-control text-center" value="{{l.qty}}" ng-blur="setQty(l.product.id, $event.target.value)" aria-label="Quantity">
+              <button class="btn btn-outline-secondary" ng-click="change(l.product.id,1)" aria-label="Increase">+</button>
+            </div></td>
+            <td>{{l.total | currency}}</td>
+            <td><button class="btn btn-sm btn-outline-danger" ng-click="remove(l.product.id)">Remove</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="text-end"><h4>Subtotal: {{total() | currency}}</h4><a href="#!/checkout" class="btn btn-accent">Go to checkout</a></div>
+  </div>
+</main>

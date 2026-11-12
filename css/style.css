@@ -1,0 +1,8 @@
+body{font-family:Inter,sans-serif;background:#faf8f5}
+h1,h2,h3,.brand{font-family:Fraunces,serif}
+.btn-accent{background:#b4532a;color:#fff;border:0}.btn-accent:hover{background:#963f1c;color:#fff}
+.hero{background:#efe6da;padding:5rem 0}
+.star{color:#e0a100}.price{font-weight:600}
+.product-card img,.card-img-top{height:180px;object-fit:cover}
+.cart-img{width:56px;height:56px;object-fit:cover;border-radius:6px}
+.toast-box{position:fixed;bottom:20px;right:20px;background:#222;color:#fff;padding:10px 16px;border-radius:8px;z-index:99}

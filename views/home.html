@@ -1,0 +1,59 @@
+<header class="hero"><div class="container">
+  <h1 class="display-4 col-lg-7">Good things for the rooms you live in.</h1>
+  <p class="lead col-lg-6">Mugs, linen, lamps and plants chosen for how they wear, not how they trend.</p>
+</div></header>
+<main class="container py-5">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <h2>Products</h2>
+    <select class="form-select w-auto" ng-model="filter">
+      <option value="">All categories</option>
+      <option ng-repeat="c in categories" value="{{c}}">{{c}}</option>
+    </select>
+  </div>
+  <div class="row g-4">
+    <div class="col-6 col-lg-3" ng-repeat="p in products | filter:(filter ? {cat: filter} : '')">
+      <div class="card h-100 product-card">
+        <img ng-src="{{p.img}}" class="card-img-top" alt="{{p.name}}">
+        <div class="card-body d-flex flex-column">
+          <h6 class="card-title">{{p.name}}</h6>
+          <div class="star small">{{avg(p.id) | stars}}</div>
+          <div class="price mb-3">{{p.price | currency}}</div>
+          <div class="mt-auto d-grid gap-2">
+            <button class="btn btn-accent btn-sm" ng-click="add(p.id)">Add to cart</button>
+            <button class="btn btn-outline-secondary btn-sm" ng-click="select(p)">Details &amp; reviews</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-4" ng-if="selected">
+    <div class="card-body">
+      <div class="d-flex justify-content-between"><h5>{{selected.name}} · {{selected.price | currency}}</h5>
+        <button class="btn-close" ng-click="$parent.selected = null"></button></div>
+      <p>{{selected.desc}}</p>
+      <h6>Reviews</h6>
+      <p class="text-muted" ng-if="!reviews.length">No reviews yet. Be the first.</p>
+      <div class="mb-2" ng-repeat="r in reviews"><span class="star">{{r.rating | stars}}</span> <strong>{{r.name}}</strong><div>{{r.text}}</div></div>
+      <form class="border-top pt-3" ng-submit="postReview()">
+        <h6>Write a review</h6>
+        <div class="row g-2">
+          <div class="col-md-5"><input class="form-control" placeholder="Your name" ng-model="form.name" required></div>
+          <div class="col-md-3"><select class="form-select" ng-model="form.rating" ng-options="n as n for n in [5,4,3,2,1]"></select></div>
+          <div class="col-12"><textarea class="form-control" rows="2" placeholder="Your review" ng-model="form.text" required></textarea></div>
+          <div class="col-12"><button class="btn btn-accent">Post review</button></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <h2 class="mt-5 mb-3">What customers say</h2>
+  <div class="row g-3">
+    <div class="col-md-6 col-lg-3" ng-repeat="r in recent()">
+      <div class="card h-100"><div class="card-body">
+        <div class="star">{{r.rating | stars}}</div><p class="mb-2">{{r.text}}</p>
+        <small class="text-muted">{{r.name}} on {{productName(r.pid)}}</small>
+      </div></div>
+    </div>
+  </div>
+</main>

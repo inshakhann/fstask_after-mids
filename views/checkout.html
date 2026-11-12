@@ -1,0 +1,32 @@
+<main class="container py-5">
+  <h2 class="mb-4">Checkout</h2>
+  <div class="alert alert-success" ng-if="orderId">
+    <h4>Order {{orderId}} placed</h4>
+    <p class="mb-0">Thanks, {{user.name.split(' ')[0]}}. A confirmation will go to {{f.email}}.</p>
+  </div>
+  <a class="btn btn-accent" href="#!/" ng-if="orderId">Keep shopping</a>
+
+  <div ng-if="!orderId && !lines().length"><p>Your cart is empty.</p><a class="btn btn-accent" href="#!/">Browse products</a></div>
+  <div class="row g-4" ng-if="!orderId && lines().length">
+    <div class="col-lg-7">
+      <form name="$parent.form" class="card card-body" ng-submit="place()" novalidate>
+        <div class="row g-3">
+          <div class="col-md-6"><label class="form-label">Full name</label><input class="form-control" ng-model="f.name" required></div>
+          <div class="col-md-6"><label class="form-label">Email</label><input type="email" class="form-control" ng-model="f.email" required></div>
+          <div class="col-12"><label class="form-label">Address</label><input class="form-control" ng-model="f.address" required></div>
+          <div class="col-md-6"><label class="form-label">City</label><input class="form-control" ng-model="f.city" required></div>
+          <div class="col-md-6"><label class="form-label">Postal code</label><input class="form-control" ng-model="f.zip" required></div>
+          <div class="col-12"><label class="form-label">Payment</label><select class="form-select" ng-model="f.payment" ng-options="p for p in payments"></select></div>
+          <div class="col-12"><button class="btn btn-accent btn-lg w-100" ng-disabled="form.$invalid">Place order · {{total() | currency}}</button></div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-5">
+      <div class="card"><div class="card-header">Order summary</div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between" ng-repeat="l in lines()">{{l.product.name}} × {{l.qty}}<span>{{l.total | currency}}</span></li>
+          <li class="list-group-item d-flex justify-content-between fw-bold">Total<span>{{total() | currency}}</span></li>
+        </ul></div>
+    </div>
+  </div>
+</main>
